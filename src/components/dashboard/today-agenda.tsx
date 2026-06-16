@@ -59,9 +59,7 @@ export function TodayAgenda() {
       });
   }, [habits, logs, todayStr]);
 
-  const completedCount = todaysHabits.filter(h =>
-    logs.some(l => l.habit_id === h.id && l.completed_at === todayStr)
-  ).length;
+
 
   const totalCount = todaysHabits.length;
 

@@ -27,6 +27,9 @@ export function HabitHeatmap() {
   const gridStart = startOfWeek(rawStart, { weekStartsOn: 0 });
   const gridEnd = today;
 
+  const gridStartIso = gridStart.toISOString();
+  const gridEndIso = gridEnd.toISOString();
+
   // Collect all weeks
   const weeks = useMemo(() => {
     const allWeeks: Date[][] = [];
@@ -44,7 +47,7 @@ export function HabitHeatmap() {
       allWeeks.push(days);
     }
     return allWeeks;
-  }, [gridStart.toISOString(), gridEnd.toISOString()]);
+  }, [gridStartIso, gridEndIso]);
 
   // Completions per day
   const countsByDate = useMemo(() => {

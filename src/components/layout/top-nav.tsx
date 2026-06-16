@@ -1,7 +1,7 @@
 'use client';
 
 import { useAuthStore } from "@/store/auth-store";
-import { LogOut, User, Activity, AlertTriangle } from "lucide-react";
+import { LogOut, Activity } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { usePathname } from "next/navigation";
 import { useState } from "react";

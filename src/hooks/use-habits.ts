@@ -9,6 +9,7 @@ import { Habit, HabitLog } from '@/types/database';
 const supabase = createClient();
 
 // Map to track active subscription channels across component cycles
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const activeChannels = new Map<string, any>();
 
 export function useHabits() {
@@ -134,6 +135,7 @@ export function useHabitDataSync() {
       console.log('[useHabitDataSync] useEffect cleanup');
       isMounted = false;
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 }
 

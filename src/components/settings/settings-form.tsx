@@ -8,6 +8,32 @@ import { useNotifications } from '@/hooks/use-notifications';
 import { Save, Download, Trash2, Bell, BellOff, GitBranch, Code2, AlertTriangle } from 'lucide-react';
 import { toast } from 'sonner';
 
+// Reusable primitives
+const Row = ({ children, className = '' }: { children: React.ReactNode; className?: string }) => (
+  <div className={`flex items-center justify-between py-3 border-b border-white/5 last:border-0 ${className}`}>
+    {children}
+  </div>
+);
+
+const Label = ({ children, sub }: { children: React.ReactNode; sub?: string }) => (
+  <div>
+    <span className="text-sm font-medium text-foreground">{children}</span>
+    {sub && <p className="text-[11px] text-muted-foreground mt-0.5">{sub}</p>}
+  </div>
+);
+
+const Toggle = ({ on, onToggle, disabled }: { on: boolean; onToggle: () => void; disabled?: boolean }) => (
+  <button
+    onClick={onToggle}
+    disabled={disabled}
+    className={`relative w-10 h-5 rounded-full transition-colors duration-300 focus:outline-none disabled:opacity-40 ${on ? 'bg-primary' : 'bg-primary/20'}`}
+  >
+    <span
+      className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform duration-300 ${on ? 'translate-x-5' : 'translate-x-0'}`}
+    />
+  </button>
+);
+
 export function SettingsForm() {
   const { profile, setProfile, habits, logs } = useHabitStore();
   const supabase = createClient();
@@ -106,31 +132,6 @@ export function SettingsForm() {
     }
   };
 
-  // Reusable row primitive
-  const Row = ({ children, className = '' }: { children: React.ReactNode; className?: string }) => (
-    <div className={`flex items-center justify-between py-3 border-b border-white/5 last:border-0 ${className}`}>
-      {children}
-    </div>
-  );
-
-  const Label = ({ children, sub }: { children: React.ReactNode; sub?: string }) => (
-    <div>
-      <span className="text-sm font-medium text-foreground">{children}</span>
-      {sub && <p className="text-[11px] text-muted-foreground mt-0.5">{sub}</p>}
-    </div>
-  );
-
-  const Toggle = ({ on, onToggle, disabled }: { on: boolean; onToggle: () => void; disabled?: boolean }) => (
-    <button
-      onClick={onToggle}
-      disabled={disabled}
-      className={`relative w-10 h-5 rounded-full transition-colors duration-300 focus:outline-none disabled:opacity-40 ${on ? 'bg-primary' : 'bg-primary/20'}`}
-    >
-      <span
-        className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform duration-300 ${on ? 'translate-x-5' : 'translate-x-0'}`}
-      />
-    </button>
-  );
 
   return (
     <div className="w-full max-w-4xl pb-28 space-y-4">
