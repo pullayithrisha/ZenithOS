@@ -18,6 +18,9 @@ export const metadata: Metadata = {
   title: "ZenithOS | Premium Habit Tracker",
   description: "A production-ready, premium habit tracker and coding productivity dashboard.",
   manifest: "/manifest.json",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export const viewport = {
