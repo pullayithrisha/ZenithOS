@@ -87,15 +87,15 @@ export default function LandingPage() {
             variants={itemVariants}
             className="text-5xl md:text-7xl font-bold tracking-tight mb-8 text-gradient"
           >
-            Elevate Your Coding <br className="hidden md:block" /> Routine to the Zenith.
+            Master Your Habits. <br className="hidden md:block" /> Power Your Career.
           </motion.h1>
           
           <motion.p 
             variants={itemVariants}
             className="text-lg md:text-xl text-zinc-400 mb-12 max-w-2xl mx-auto leading-relaxed"
           >
-            A premium, gamified habit tracker designed specifically for developers. 
-            Sync with GitHub and LeetCode, track your progress, and build consistency.
+            A premium habit tracker built to build consistency in your daily life. 
+            Perfect for tech students and developers—automatically sync your GitHub activity and LeetCode progress while you track your routines.
           </motion.p>
           
           <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -105,7 +105,7 @@ export default function LandingPage() {
               onClick={handleLogin}
               disabled={isLoggingIn}
             >
-              Get Started with Google <ArrowRight className="ml-2 w-5 h-5" />
+              Get Started <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
           </motion.div>
 

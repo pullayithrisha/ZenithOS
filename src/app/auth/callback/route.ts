@@ -13,7 +13,7 @@ export async function GET(request: Request) {
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     
     if (!error) {
-      return NextResponse.redirect(`${origin}${next}`)
+      return NextResponse.redirect(`${origin}${next}`, { status: 302 })
     } else {
       console.error('Auth error:', error)
     }

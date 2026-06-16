@@ -1,40 +1,66 @@
-import { createClient } from "@/lib/supabase/server";
-import { redirect } from "next/navigation";
-import { LogOut } from "lucide-react";
+'use client';
 
-export default async function DashboardPage() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+import { useHabitStore } from "@/store/habit-store";
+import { ProgressCard } from "@/components/dashboard/progress-card";
+import { GithubCard } from "@/components/dashboard/github-card";
+import { LeetcodeCard } from "@/components/dashboard/leetcode-card";
+import { HabitHeatmap } from "@/components/dashboard/habit-heatmap";
+import { TodayAgenda } from "@/components/dashboard/today-agenda";
+import { format } from "date-fns";
 
-  if (!user) {
-    redirect("/");
+export default function DashboardPage() {
+  const { isLoading, error, profile } = useHabitStore();
+
+  if (isLoading) {
+    return (
+      <div className="space-y-4 animate-pulse">
+        <div className="h-14 w-48 bg-secondary rounded-md" />
+        <div className="h-40 glass-card" />
+        <div className="h-24 glass-card" />
+        <div className="h-40 glass-card" />
+      </div>
+    );
   }
 
-  return (
-    <div className="flex min-h-screen flex-col bg-zinc-950 text-white">
-      <header className="glass border-b border-white/5 sticky top-0 z-50">
-        <div className="flex h-16 items-center px-6 justify-between max-w-7xl mx-auto w-full">
-          <div className="font-bold text-lg">ZenithOS Dashboard</div>
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-zinc-400">{user.email}</span>
-            <form action="/auth/signout" method="post">
-              <button className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors">
-                <LogOut className="w-4 h-4" />
-                Sign out
-              </button>
-            </form>
-          </div>
-        </div>
-      </header>
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 text-center">
+        <h3 className="text-xl font-bold text-destructive mb-2">Failed to load dashboard</h3>
+        <p className="text-muted-foreground max-w-sm">{error}</p>
+      </div>
+    );
+  }
 
-      <main className="flex-1 flex flex-col items-center justify-center p-6">
-        <div className="glass-card p-12 max-w-2xl text-center">
-          <h1 className="text-3xl font-bold mb-4">Welcome to ZenithOS</h1>
-          <p className="text-zinc-400 mb-8">
-            You have successfully signed in. Phase 1 authentication is complete!
-          </p>
+  // Extract first name from github_username or email
+  const rawName = profile?.github_username || profile?.email?.split('@')[0] || 'there';
+  const firstName = rawName.charAt(0).toUpperCase() + rawName.slice(1);
+
+  // Format: Mon, Jun 16
+  const dayDate = format(new Date(), 'EEE, MMM d');
+
+  return (
+    <div className="space-y-4">
+      {/* ── Greeting Header ── */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2">
+            Hi {firstName} <span>👋</span>
+          </h1>
+          <p className="text-muted-foreground text-xs mt-0.5">{dayDate}</p>
         </div>
-      </main>
+      </div>
+
+      {/* ── Today's Habits ── */}
+      <TodayAgenda />
+
+      {/* ── Daily Progress ── */}
+      <ProgressCard />
+
+      {/* ── Integrations ── */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <LeetcodeCard />
+        <GithubCard />
+      </div>
     </div>
   );
 }

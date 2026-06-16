@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ZenithOS
 
-## Getting Started
+ZenithOS is a production-ready, premium habit tracker and coding productivity dashboard. It combines standard habit tracking with developer-focused integrations (GitHub, LeetCode) to provide a unified overview of your daily productivity.
 
-First, run the development server:
+Built with **Next.js 15, React 19, Tailwind CSS, Supabase, and Framer Motion**, featuring a fully responsive dark-glassmorphism aesthetic.
+
+## Features
+- **Authentication**: Secure Google OAuth powered by Supabase Auth.
+- **Interactive Dashboard**: Track your daily habits, streaks, and XP progression with Realtime PostgreSQL subscriptions.
+- **Developer Integrations**: Live GitHub repository and LeetCode problem-solving statistics via highly-cached Next.js Route Handlers (100% free API tier compliance).
+- **Gamification**: Earn XP, build streaks, and visualize your progress on an interactive GitHub-style heatmap.
+- **Analytics**: Deep dive into your data with pie charts, line graphs, and completion trends powered by Recharts.
+- **Data Portability**: Instantly export your tracked habits as JSON or CSV.
+- **Progressive Web App (PWA)**: Installable on Mobile and Desktop with offline caching support.
+
+---
+
+## 🚀 Setup Guide
+
+### Prerequisites
+1. **Node.js**: v18+ (v20 recommended)
+2. **Supabase Account**: (Free tier)
+3. **Google Cloud Console**: For OAuth Credentials
+
+### 1. Supabase Setup
+1. Create a new project on [Supabase](https://supabase.com).
+2. Navigate to **Authentication > Providers** and enable **Google**.
+   - Input your Google Client ID and Secret (from Google Cloud Console).
+   - Add your Supabase Callback URL (`https://<project>.supabase.co/auth/v1/callback`) to your Google Cloud OAuth Client ID configuration.
+3. Navigate to **SQL Editor** in Supabase and run the migration script located at `supabase/migrations/20260615000000_initial_schema.sql` to generate all tables, triggers, and Row Level Security policies.
+
+### 2. Environment Variables
+Create a `.env.local` file in the root directory by duplicating `.env.example`:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp .env.example .env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Fill in your environment variables:
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Local Development
+Install dependencies and run the local development server:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm install
+npm run dev
+```
 
-## Learn More
+ZenithOS will be available at `http://localhost:3000`.
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🌐 Vercel Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Deploying to Vercel is highly recommended and 100% free.
 
-## Deploy on Vercel
+1. Push your code to a GitHub repository.
+2. Log in to [Vercel](https://vercel.com) and click **Add New > Project**.
+3. Import your GitHub repository.
+4. Expand the **Environment Variables** section and add:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `NEXT_PUBLIC_SITE_URL` (Set this to your Vercel production URL, e.g., `https://zenithos.vercel.app`)
+5. **IMPORTANT**: In your Supabase Dashboard, go to **Authentication > URL Configuration**, and add your Vercel production URL to the **Site URL** and **Redirect URLs** list.
+6. Click **Deploy**.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🛠️ Architecture
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Framework**: Next.js App Router
+- **Database & Auth**: Supabase SSR
+- **State Management**: Zustand (Client-side fast optimistic updates)
+- **Styling**: Tailwind CSS (Native nested styling via `@tailwindcss/postcss`)
+- **Charts**: Recharts & React Calendar Heatmap
+- **Icons**: Lucide React
+- **Notifications**: Sonner & Standard Browser Notification API
