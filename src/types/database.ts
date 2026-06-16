@@ -5,10 +5,10 @@ export interface Profile {
   email: string;
   github_username: string | null;
   leetcode_username: string | null;
-  current_streak: number;
-  longest_streak: number;
   xp: number;
   level: number;
+  current_streak: number;
+  longest_streak: number;
   created_at: string;
   updated_at: string;
 }
