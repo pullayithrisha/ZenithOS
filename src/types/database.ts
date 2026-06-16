@@ -7,6 +7,8 @@ export interface Profile {
   leetcode_username: string | null;
   current_streak: number;
   longest_streak: number;
+  xp: number;
+  level: number;
   created_at: string;
   updated_at: string;
 }
